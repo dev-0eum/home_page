@@ -1,5 +1,6 @@
 from django.shortcuts import render
+from django.views.generic import *
 
 # Create your views here.
-def greet(request):
-    return render(request, 'base.html')
+class MainView(DetailView):
+    template_name='mainpg/intro.html'
