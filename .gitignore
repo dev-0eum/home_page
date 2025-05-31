@@ -1,3 +1,4 @@
 manage.py
 venv
 db.sqlite3
+.env
