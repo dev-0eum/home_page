@@ -1,14 +1,15 @@
-<div style="text-align: center; margin-top: 2rem;font-family: Pochaevsk;">
+{% load static %}
+<div style="text-align: center;font-family: Pochaevsk;">
     <style>
         .footer {
             background-color: #dddddd;
-            padding: 30px;
+            padding: 50px;
             display: flex;
             justify-content: space-around;
         }
 
         .footer-section {
-            font-size: 20px;
+            font-size: 14px;
         }
 
         .footer img {
@@ -18,12 +19,20 @@
 
     <div class="footer">
         <div class="footer-section">
-            <img src="logo1.png" alt="ICPA 로고">
-            <img src="logo2.png" alt="Posco 로고">
+            <img src="{% static '/photo/icpalogo.png' %}" alt="ICPA 로고" style="height: 100px;">
+            <img src="{% static '/photo/icpalogo2.png' %}" alt="Posco 로고" style="height: 100px;">
         </div>
-        <div class="footer-section">
-            <strong>Dev Info</strong><br>
-            DEV: dev-0eum@github.com<br>
-            Email: lifeparadox470@gmail.com
+        <div style="display: flex; align-items: center; gap: 20px;"></div>
+            <div class="footer-section">
+                <strong>Dev Info</strong><br>
+                DEV: dev-0eum@github.com<br>
+                Email: lifeparadox470@gmail.com
+            </div>
+            <div class="footer-section">
+                <strong>Contact Us</strong><br>
+                주소: 인천광역시 연수구 컨벤시아대로 42번길 50<br>
+                Address: 50, Convensia-daero 42beon-gil, Yeonsu-gu, Incheon, Republic of Korea<br>
+                Call: (032)850-8600
+            </div>
         </div>
 </div>

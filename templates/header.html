@@ -1,5 +1,51 @@
+{% load static %}
+<div style="
+    background-image: url('/static/photo/back.png');
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1; /* 여기만 있으면 충분함 */
+    isolation: isolate; /* 내부 z-index 격리 */ ">
 
-    <div style="text-align: center; margin: 2rem 0;" >
-        <div>
-            <h1 class="icpa_title">The ICPA</h1>
+    <!-- 흐림 오버레이 -->
+    <div style="
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(255,255,255,0.6);
+        backdrop-filter: blur(3px);
+        z-index: -1;
+    "></div>
+
+    <!-- 로고 -->
+    <div>
+        <img src="{% static '/photo/icpalogo2.png' %}" alt="ICPA 로고" style="height: 150px; margin-left: 20px;">
     </div>
+
+    <!-- 우측 네비게이션 + 아이콘 감싸는 박스 -->
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <!-- 네비게이션 -->
+        <div style="padding: 8px 16px; border-radius: 20px; background-color: rgb(153, 202, 255);">
+            <nav style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px;">
+                <ul style="list-style: none; display: flex; gap: 20px; justify-content: center; margin: 0; padding: 0;">
+                <li><a href="#" style="text-decoration: none; color: black;">ICPA</a></li>
+                <li><a href="#" style="text-decoration: none; color: black;">Features</a></li>
+                <li><a href="#" style="text-decoration: none; color: black;">Search</a></li>
+                <li><a href="#" style="text-decoration: none; color: black;">사업소개</a></li>
+                <li><a href="#" style="text-decoration: none; color: black;">동문소식</a></li>
+                <li><a href="#" style="text-decoration: none; color: black;">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    
+        <!-- 유저 아이콘 -->
+        <div>
+            <img src="/static/img/user_icon.png" alt="User Icon" style="height: 30px;">
+        </div>
+    </div>
+</div>
