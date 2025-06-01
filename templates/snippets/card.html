@@ -1,7 +1,8 @@
+{% load static %}
 <!-- templates/card.html -->
 <div class="card">
-    <div class="card-image">
-        <img src="{{ image_url }}" alt="News Image" />
+    <div class="card-image" style="text-align: center;">
+        <img src="{% static image_url %}" alt="News Image" />
     </div>
     <div class="card-text">
         {{ description1 }} <br>
