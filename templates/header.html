@@ -24,7 +24,9 @@
 
     <!-- 로고 -->
     <div>
-        <img src="{% static '/photo/icpalogo2.png' %}" alt="ICPA 로고" style="height: 150px; margin-left: 20px;">
+        <a href="{% url 'mainpage:home' %}">
+            <img src="{% static '/photo/icpalogo2.png' %}" alt="ICPA 로고" style="height: 150px; margin-left: 20px;">
+        </a>
     </div>
 
     <!-- 우측 네비게이션 + 아이콘 감싸는 박스 -->
@@ -34,7 +36,7 @@
             <nav style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px;">
                 <ul style="list-style: none; display: flex; gap: 20px; justify-content: center; margin: 0; padding: 0;">
                 <li><a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">ICPA</a></li>
-                <li><a href="#" style="text-decoration: none; color: black;">Features</a></li>
+                <li><a href="{% url 'mainpage:test' %}" style="text-decoration: none; color: black;">Features</a></li>
                 <li><a href="#" style="text-decoration: none; color: black;">Search</a></li>
                 <li><a href="#" style="text-decoration: none; color: black;">사업소개</a></li>
                 <li><a href="#" style="text-decoration: none; color: black;">동문소식</a></li>
@@ -45,7 +47,9 @@
     
         <!-- 유저 아이콘 -->
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
-            person
+            <a href="{% url 'account:create' %}">
+                person
+            </a>
         </div>
     </div>
 </div>

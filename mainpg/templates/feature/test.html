@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="text-align: center;">
+    <h3> Test Page </h3>
+    {% for alumini in alumini_list %}
+    <span>
+        {{alumini.name}}
+    </span>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
