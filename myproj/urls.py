@@ -20,10 +20,13 @@ from django.urls import path,include
 
 from django.views.generic import RedirectView
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     #path("", RedirectView.as_view(pattern_name='account:login'), name='home'),
     path("",RedirectView.as_view(pattern_name='mainpage:home'),name='home'),
     path("main/", include('mainpg.urls')),
     path("account/",include('accounts.urls')),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

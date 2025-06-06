@@ -9,4 +9,7 @@ class Account(models.Model):
     introduce = models.TextField()
 
     img = models.ImageField(upload_to='account/')
-    created_at = models.DateField(auto_now_add=True, null=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=False)
+
+    def __str__(self):
+        return self.name
