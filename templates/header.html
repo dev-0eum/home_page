@@ -44,12 +44,38 @@
                 </ul>
             </nav>
         </div>
-    
-        <!-- 유저 아이콘 -->
+
+        {% if not user.is_authenticated %}
+        <!-- is not LogIn -->
+        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+            <a href="{% url 'account:login' %}?next={% url 'mainpage:home' %}">
+                login
+            </a>
+        </div>
+
+        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+            <a href="{% url 'account:signup' %}">
+                    group add
+            </a>
+        </div>
+
+        {% else %}
+        <!-- is LogIn -->
+        {{user.name}}
+
+        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+            <form action="{% url 'account:logout' %}?next={% url 'mainpage:home' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="all: unset; cursor: pointer;">logout</button>
+            </form>
+        </div>
+
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
             <a href="{% url 'account:create' %}">
                 person
             </a>
         </div>
+        {% endif %}
+
     </div>
 </div>

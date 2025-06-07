@@ -2,15 +2,30 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import *
 
+# For Alumini
 from accounts.forms import AluminiForm
-from accounts.models import Account
+from accounts.models import Alumini
+
+# For User
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from accounts.forms import AccountUpdateForm
+from django.http import *
+
+# decorators
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import account_ownership_required
+has_ownership=[account_ownership_required, login_required]
 
 # Create your views here.
-class CreateAccount(CreateView):
-    model = Account
+class AluminiCreateView(CreateView):
+    model = Alumini
     context_object_name = 'target_alumini'
     form_class = AluminiForm
-    template_name = 'accounts/create.html'
+    template_name = 'alumini/create.html'
 
     # Form을 임시로 받아서, temp의 정보와 req의 정보가 동일한지 체크
     def form_valid(self, form):
@@ -30,3 +45,48 @@ class CreateAccount(CreateView):
         return reverse('mainpage:home')
         # Redirect with PK param
         # return reverse('account:detail',kwargs={'pk': self.object.user.pk})
+
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = reverse_lazy('mainpage:home') # class에서는 lazy 사용
+    template_name = 'accounts/create.html'
+
+class AccountDetailView(DetailView):
+    model = User
+    context_object_name = 'target_user'
+    template_name = 'accounts/detail.html'
+
+class AccountUpdateView(UpdateView):
+    model = User
+    form_class = AccountUpdateForm # id가 변경 가능한 폼 >> 그래서 새로운 폼
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('mainpage:home')
+    template_name = 'accounts/update.html'
+
+    def get(self,*args,**kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            return super().get(*args,**kwargs)
+        else:
+            return HttpResponseForbidden()
+        
+    def post(self,*args,**kwargs):
+        if self.request.user.is_authenticated and self.get_object() == self.request.user:
+            return super().post(*args,**kwargs)
+        else:
+            return HttpResponseForbidden()
+
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
+class AccountDeleteView(DeleteView):
+    model = User
+    context_object_name = 'target_user'
+    success_url = reverse_lazy('mainpage:home')
+    template_name = 'accounts/delete.html'
+
+
+from django.contrib.auth.views import LogoutView
+class PostLogoutView(LogoutView):
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import *
 
-from accounts.models import Account
+from accounts.models import Alumini
 
 # Create your views here.
-class MainView(DetailView):
-    template_name='mainpg/intro.html'
+def home_view(request):
+    return render(request, 'mainpg/intro.html')
 
 class TestView(ListView):
-    model = Account
+    model = Alumini
     context_object_name = 'alumini_list'
     template_name = 'feature/test.html'

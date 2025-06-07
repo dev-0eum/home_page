@@ -1,10 +1,10 @@
 from django.urls import path, include
-from mainpg.views import MainView, TestView
-from django.contrib.auth.views import LoginView
+from mainpg.views import *
+from django.views.generic import *
 
 app_name = 'mainpage'
 
 urlpatterns = [
-    path('home/', LoginView.as_view(template_name='mainpg/intro.html') , name='home'),
+    path('home/', home_view , name='home'),
     path('test/', TestView.as_view(), name='test'),
 ]

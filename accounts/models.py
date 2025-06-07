@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Account(models.Model):
+class Alumini(models.Model):
     name = models.CharField(max_length=50, null=False)
     th = models.IntegerField(default=0)
     company = models.CharField(max_length=100, default='TBA')
