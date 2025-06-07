@@ -61,7 +61,10 @@
 
         {% else %}
         <!-- is LogIn -->
-        {{user.name}}
+
+        <a href="{% url 'account:detail' pk=user.pk %}">
+            User: {{user.username}}
+        </a>
 
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
             <form action="{% url 'account:logout' %}?next={% url 'mainpage:home' %}" method="post" style="display:inline;">
@@ -70,11 +73,13 @@
             </form>
         </div>
 
+        <!-- 유저가 프로필 가지고 있으면 {% if user|has_profile%} -->
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
             <a href="{% url 'account:create' %}">
                 person
             </a>
         </div>
+        <!-- {% endif %} -->
         {% endif %}
 
     </div>

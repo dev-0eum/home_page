@@ -17,10 +17,11 @@ from django.http import *
 # decorators
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from accounts.decorators import account_ownership_required
+from accounts.decorators import account_ownership_required, profile_ownership_required
 has_ownership=[account_ownership_required, login_required]
 
 # Create your views here.
+# Alumini(Profile)
 class AluminiCreateView(CreateView):
     model = Alumini
     context_object_name = 'target_alumini'
@@ -31,9 +32,12 @@ class AluminiCreateView(CreateView):
     def form_valid(self, form):
         # temp에 form 임시 저장 
         temp = form.save(commit=False)
-
+        
+        # alumini에 user 정보를 연결
+        temp.user = self.request.user
         # models.py에서 객체의 user가 request의 user와 동일한지 체크
         #temp.user = self.request.user
+
 
         # 실제로 데이터 저장
         temp.save()
@@ -46,7 +50,20 @@ class AluminiCreateView(CreateView):
         # Redirect with PK param
         # return reverse('account:detail',kwargs={'pk': self.object.user.pk})
 
+@method_decorator(profile_ownership_required, 'get')
+@method_decorator(profile_ownership_required, 'post')
+class ProfileUpdateView(UpdateView):
+    model = Alumini
+    context_object_name = 'target_profile'
+    form_class = AluminiForm
+    #success_url = reverse_lazy('account:greeting')
+    template_name = 'alumini/update.html'
 
+    def get_success_url(self):
+        return reverse('account:detail',kwargs={'pk': self.object.user.pk})
+
+
+# User
 class UserCreateView(CreateView):
     model = User
     form_class = UserCreationForm
@@ -57,6 +74,14 @@ class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
     template_name = 'accounts/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['alumini_profile'] = self.get_object().profile
+        except Alumini.DoesNotExist:
+            context['alumini_profile'] = None
+        return context
 
 class AccountUpdateView(UpdateView):
     model = User

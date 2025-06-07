@@ -15,4 +15,4 @@ class AccountUpdateForm(UserCreationForm):
         # super >> super()로 변경
         super().__init__(*args,**kwargs)
         
-        self.fields['name'].disabled = True
+        self.fields['username'].disabled = True
