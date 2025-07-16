@@ -36,7 +36,9 @@
             <nav style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px;">
                 <ul style="list-style: none; display: flex; gap: 20px; justify-content: center; margin: 0; padding: 0;">
                 <li><a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">ICPA</a></li>
+                {% if user.username == 'icpadmin'%}
                 <li><a href="{% url 'mainpage:test' %}" style="text-decoration: none; color: black;">Features</a></li>
+                {% endif %}
                 <li><a href="#" style="text-decoration: none; color: black;">Search</a></li>
                 <li><a href="#" style="text-decoration: none; color: black;">사업소개</a></li>
                 <li><a href="#" style="text-decoration: none; color: black;">동문소식</a></li>
@@ -60,11 +62,12 @@
         </div>
 
         {% else %}
-        <!-- is LogIn -->
-
+        <!-- is LogIn & show who is connected
+        
         <a href="{% url 'account:detail' pk=user.pk %}">
             User: {{user.username}}
         </a>
+        -->
 
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
             <form action="{% url 'account:logout' %}?next={% url 'mainpage:home' %}" method="post" style="display:inline;">
@@ -73,13 +76,22 @@
             </form>
         </div>
 
-        <!-- 유저가 프로필 가지고 있으면 {% if user|has_profile%} -->
+        
         <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+            <!-- if user has no profile -->
+            {% if not user.profile %}
             <a href="{% url 'account:create' %}">
+                person add
+            </a>
+
+            {% else %}
+            <!-- if user has profile -->
+            <a href="{% url 'account:detail' pk=user.pk %}">
                 person
             </a>
+            {% endif %}
         </div>
-        <!-- {% endif %} -->
+        
         {% endif %}
 
     </div>
