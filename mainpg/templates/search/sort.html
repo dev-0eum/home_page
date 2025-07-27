@@ -10,6 +10,13 @@
 
     <div class="container">
         <div class="row row-cols-4">
+            <!-- 직접 검색
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+                    </div>
+                </div>
+            -->
             <div class="col"></div>
             <div class="col"></div>
             <div class="col"></div>
@@ -54,7 +61,7 @@
             {% endfor %}
         </table>
     </div>
-    <p>pagination</p>
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
 </div>
 <br>
 

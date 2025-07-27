@@ -23,9 +23,10 @@ class SearchView(ListView):
     model = Alumini
     context_object_name = 'alumini_list'
     template_name = 'search/sort.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        sort = self.request.GET.get('sort', 'name')  # 기본 정렬 기준은 name
+        sort = self.request.GET.get('sort', '-name')  # 기본 정렬 기준은 name
         allowed_fields = ['name', 'th', 'company', 'contact','-name', '-th', '-company', '-contact']  # Alumini 모델의 정렬 가능한 필드
 
         if sort not in allowed_fields:
