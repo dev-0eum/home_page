@@ -2,14 +2,23 @@
 
 {% block content %}
 
+{% if is_admin %}
 <div style="text-align: center;">
     <h3> Test Page </h3>
+    <h4>I am Admin</h4>
     {% for alumini in alumini_list %}
     <span>
         {{alumini.name}} <br>
     </span>
     {% endfor %}
 </div>
+{% else %}
+<div style="text-align: center;">
+    <h2>Only For Admin</h2>
+    <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">Return to Home</a>
+</div>
+
+{% endif %}
 
 
 {% endblock %}

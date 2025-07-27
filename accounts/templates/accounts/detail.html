@@ -5,7 +5,7 @@
 <div>
     <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
         
-    {% if target_user == user %}
+    {% if target_user == user or user.groups.name == 'None' %}
         
         <!-- <div style="margin-bottom: 2rem;">
             <h2>{{ target_user.username }} 님의 프로필</h2>
@@ -89,7 +89,9 @@
         </a>
         {% endif %}
     </div>
-
+    <h4>
+        {{user.groups.name}}
+    </h4>
 </div>
 
 {% endblock %}
