@@ -1,16 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 {% if is_admin %}
 <div style="text-align: center;">
-    <h3> Test Page </h3>
-    <h4>I am Admin</h4>
-    {% for alumini in alumini_list %}
-    <span>
-        {{alumini.name}} <br>
-    </span>
-    {% endfor %}
+    <br>
+    <h1> Test Page </h3>
+    <h4>View Profiles</h4>
+    <!-- bootstrap4 GridSystem -->
+    <div class="container">
+        <div class="row row-cols-2">
+            {% for alumini in alumini_list %}
+            <div class="col" style="
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #1f1f1f, #2e2e2e);
+            color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;"
+            onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.6)'"
+            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.4)'">
+            
+                <div style="flex-shrink: 0; margin-right: 2rem;">
+                    <img src="{{ alumini.img.url }}"
+                        alt="프로필 이미지"
+                        style="width: 140px; height: 140px; object-fit: cover; border-radius: 10px; border: 3px solid #888;">
+                </div>
+        
+                <!-- 프로필 텍스트 -->
+                <div style="flex-grow: 1;">
+                    <h2 style="margin: 0; font-size: 1.8rem;">{{ alumini.name }}</h2>
+                    <p style="margin: 0.3rem 0; font-size: 1rem; color: #ccc;">{{ alumini.th }}th Alumini</p>
+                    <p style="margin: 0.5rem 0;"><strong>Company:</strong> {{ alumini.company }}</p>
+                    <p style="margin: 0.5rem 0;"><strong>Contact:</strong> {{ alumini.contact }}</p>
+        
+                    <div style="margin-top: 1rem; background-color: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">
+                        <p style="font-size: 0.95rem; line-height: 1.5; color: #ddd;">
+                            {{ alumini.introduce }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 {% else %}
 <div style="text-align: center;">
