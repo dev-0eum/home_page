@@ -77,6 +77,12 @@ class AccountDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Check 'Search' Permission
+        user = self.request.user
+        context['can_view'] = user.groups.filter(name='search').exists()
+        # End
+        # Check user has profile
         try:
             context['alumini_profile'] = self.get_object().profile
         except Alumini.DoesNotExist:

@@ -52,7 +52,11 @@
             {% for alumini in alumini_list %}
             <tbody>
                 <tr>
-                    <th scope="row">{{alumini.user}}</th>
+                    <th scope="row">
+                        <a href="{% url 'account:detail' pk=alumini.user.pk %}">
+                            {{alumini.user}}
+                        </a>
+                    </th>
                     <td>{{alumini.th}}</td>
                     <td>{{alumini.company}}</td>
                     <td>{{alumini.contact}}</td>
