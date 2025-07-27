@@ -7,5 +7,6 @@ app_name = 'mainpage'
 urlpatterns = [
     path('home/', home_view , name='home'),
     path('test/', TestView.as_view(), name='test'),
+    path('search/', SearchView.as_view() ,name='search'),
     path("api/text/", hello),
 ]

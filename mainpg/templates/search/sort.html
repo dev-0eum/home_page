@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div style="text-align: center;">
+    <br>
+    <h1> Search </h3>
+    <h4>View Alumini</h4>
+
+    <div class="container">
+        <div class="row row-cols-4">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+                <form method="get" action="{% url 'mainpage:search' %}">
+                    <select name="sort" class="form-select" onchange="this.form.submit()">
+                        <option value="-name" {% if request.GET.sort == '-name' %}selected{% endif %}>Name</option>
+                        <option value="th" {% if request.GET.sort == 'th' %}selected{% endif %}>Th</option>
+                        <option value="company" {% if request.GET.sort == 'company' %}selected{% endif %}>Company</option>
+                        <option value="contact" {% if request.GET.sort == 'contact' %}selected{% endif %}>Contact</option>
+                        <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>-Name</option>
+                        <option value="-th" {% if request.GET.sort == '-th' %}selected{% endif %}>-Th</option>
+                        <option value="-company" {% if request.GET.sort == '-company' %}selected{% endif %}>-Company</option>
+                        <option value="-contact" {% if request.GET.sort == '-contact' %}selected{% endif %}>-Contact</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+    <!-- bootstrap4 Table -->
+    <div style="padding: 28px 16px; border: 2px solid black; border-radius: 2rem; margin: 3rem 8rem;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Th</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Contact</th>
+                </tr>
+            </thead>
+            
+            {% for alumini in alumini_list %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{alumini.user}}</th>
+                    <td>{{alumini.th}}</td>
+                    <td>{{alumini.company}}</td>
+                    <td>{{alumini.contact}}</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    <p>pagination</p>
+</div>
+<br>
+
+
+{% endblock %}
