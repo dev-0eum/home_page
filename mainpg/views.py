@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.views.generic import *
+from django.urls import reverse
 
 from accounts.models import Alumini
 from django.contrib.auth.models import User
+from mainpg.forms import NewsForm
+from mainpg.models import News
 
 # Create your views here.
 def home_view(request):
     return render(request, 'mainpg/intro.html')
 
+############# Admin #############
 class TestView(ListView):
     model = Alumini
     context_object_name = 'alumini_list'
@@ -19,6 +23,8 @@ class TestView(ListView):
         context['is_admin'] = user.groups.filter(name='admin').exists()
         return context
 
+
+############# Search #############
 class SearchView(ListView):
     model = Alumini
     context_object_name = 'alumini_list'
@@ -40,6 +46,40 @@ class SearchView(ListView):
         return context
 
 
+
+############# News #############
+class NewsView(ListView):
+    model = Alumini
+    context_object_name = 'alumini_list'
+    template_name = 'news/feed.html'
+
+class NewsCreateView(CreateView):
+    model = News
+    context_object_name = 'news'
+    form_class = NewsForm
+    template_name = 'news/create.html'
+
+    # Form을 임시로 받아서, temp의 정보와 req의 정보가 동일한지 체크
+    def form_valid(self, form):
+        # temp에 form 임시 저장 
+        temp = form.save(commit=False)
+        group_names = [group.name for group in self.request.user.groups.all()]
+        print(group_names)
+
+        # Admin 그룹권한 확인
+        if('admin' in group_names):
+            # 실제로 데이터 저장
+            temp.save()
+            return super().form_valid(form)
+        else:
+            print("Permission Denied")
+
+    
+    # Redirect to URL
+    def get_success_url(self):
+        return reverse('mainpage:news')
+
+############# DRF API #############
 from django.http import JsonResponse
 
 def hello(request):

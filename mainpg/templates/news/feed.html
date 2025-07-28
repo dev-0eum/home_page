@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'news.html' %}
+
+<button style="text-align: center;">
+    <a href="{% url 'mainpage:upload' %}">
+        create News
+    </a>
+</button>
+
+
+{% endblock %}
+
