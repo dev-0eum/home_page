@@ -2,6 +2,8 @@
 <!-- templates/cardlist.html -->
 <div class="card-list">
     {% for news in news_list %}
-        {% include 'snippets/card.html' with news=news %}
+        <a href="{% url 'mainpage:detail' pk=news.pk %}">
+            {% include 'snippets/card.html' with news=news %}
+        </a>
     {% endfor %}
 </div>

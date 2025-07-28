@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        
+
+        <div style="
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 1.5rem 2rem;
+        border-radius: 1rem;
+        background: linear-gradient(135deg, #1f1f1f, #2e2e2e);
+        color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.6)'"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.4)'">
+
+            <div style="flex-shrink: 0; margin-right: 2rem;">
+                <img src="{{ target_news.img.url }}"
+                    alt="News 이미지"
+                    style="width: 140px; height: 140px; object-fit: cover; border-radius: 10px; border: 3px solid #888;">
+            </div>
+
+            <!-- News Content -->
+            <div style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 1.8rem;">{{ target_news.title }}</h2>
+
+                <div style="margin-top: 1rem; background-color: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: #ddd;">
+                        {{ target_news.content }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% if is_admin %}
+        <a class="material-icons"
+        style="box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;"
+        href="{% url 'mainpage:update' pk=target_news.pk %}">
+            settings
+        </a>
+        <a class="material-icons"
+        style="box-shadow: 0 0 4px #ff0000; border-radius: 10rem; padding: .4rem;"
+        href="{% url 'mainpage:delete' pk=target_news.pk %}">
+            cancel
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

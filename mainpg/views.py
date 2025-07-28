@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import *
 from django.urls import reverse
+from django.http import *
+from django.urls import reverse_lazy
 
 from accounts.models import Alumini
 from django.contrib.auth.models import User
-from mainpg.forms import NewsForm
+from mainpg.forms import *
 from mainpg.models import News
 
 # Create your views here.
@@ -87,6 +89,55 @@ class NewsCreateView(CreateView):
     # Redirect to URL
     def get_success_url(self):
         return reverse('mainpage:news')
+    
+########################
+class NewsDetailView(DetailView):
+    model = News
+    context_object_name = 'target_news'
+    template_name = 'news/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['is_admin'] = user.groups.filter(name='admin').exists()
+        return context
+
+class NewsUpdateView(UpdateView):
+    model = News
+    form_class = NewsUpdateForm # id가 변경 가능한 폼 >> 그래서 새로운 폼
+    context_object_name = 'target_news'
+    success_url = reverse_lazy('mainpage:news')
+    template_name = 'news/update.html'
+
+    def get(self,*args,**kwargs):
+        if self.request.user.is_authenticated:
+            return super().get(*args,**kwargs)
+        else:
+            return HttpResponseForbidden()
+        
+    def post(self,*args,**kwargs):
+        if self.request.user.is_authenticated:     #and self.get_object() == self.request.user:
+            return super().post(*args,**kwargs)
+        else:
+            return HttpResponseForbidden()
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['is_admin'] = user.groups.filter(name='admin').exists()
+        return context
+
+class NewsDeleteView(DeleteView):
+    model = News
+    context_object_name = 'target_news'
+    success_url = reverse_lazy('mainpage:news')
+    template_name = 'news/delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['is_admin'] = user.groups.filter(name='admin').exists()
+        return context
 
 ############# DRF API #############
 from django.http import JsonResponse
