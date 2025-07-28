@@ -3,7 +3,7 @@
 {% block content %}
 
 <div>
-    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+    <div style="text-align: center; max-width: 100%; margin: 4rem auto;">
         
 
         <div style="
@@ -23,7 +23,7 @@
             <div style="flex-shrink: 0; margin-right: 2rem;">
                 <img src="{{ target_news.img.url }}"
                     alt="News 이미지"
-                    style="width: 140px; height: 140px; object-fit: cover; border-radius: 10px; border: 3px solid #888;">
+                    style="width: 400px; height: 400px; object-fit: contain; border-radius: 10px; border: 3px solid #888;background-color: #fff;  /* 빈 공간 대비용 배경색 */">
             </div>
 
             <!-- News Content -->
