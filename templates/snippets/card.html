@@ -1,17 +1,16 @@
+
 {% load static %}
 <!-- bootstrap4 -->
 <!-- templates/card.html -->
-<div class="card">
+<div class="card border-info mb-5">
+    <div class="card-header">{{ news.title }}</div>
     <div class="card-image" style="text-align: center;">
-        <img src="{% static image_url %}" alt="News Image" />
+        <img src="{{news.img.url}}" alt="News Image" />
     </div>
     <div class="card-text">
-        {{ description1 }} <br>
-        {{ description2 }} <br>
-        {{ description3 }} <br>
-        {{ description4 }}
+        {{ news.content|truncatewords:20 }}
     </div>
     <div class="card-date">
-        {{ date }}
+        {{ news.created_at|date:"Y.m.d" }}
     </div>
 </div>

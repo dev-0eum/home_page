@@ -9,7 +9,8 @@ from mainpg.models import News
 
 # Create your views here.
 def home_view(request):
-    return render(request, 'mainpg/intro.html')
+    news_list = News.objects.all().order_by('-created_at')[:6]
+    return render(request, 'mainpg/intro.html', {'news_list': news_list})
 
 ############# Admin #############
 class TestView(ListView):
@@ -49,9 +50,17 @@ class SearchView(ListView):
 
 ############# News #############
 class NewsView(ListView):
-    model = Alumini
-    context_object_name = 'alumini_list'
+    model = News
+    context_object_name = 'news_list'
     template_name = 'news/feed.html'
+    ordering = ['-created_at'] # 최신순 정렬 
+    paginate_by = 3
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['can_upload'] = user.groups.filter(name='admin').exists()
+        return context
 
 class NewsCreateView(CreateView):
     model = News
