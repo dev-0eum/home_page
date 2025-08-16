@@ -80,27 +80,44 @@ document.addEventListener("DOMContentLoaded", function() {
     const hamburgerBtn = document.getElementById("hamburger-btn");
     const navBox = document.getElementById("nav-box");
 
-    // 햄버거 버튼 눌렀을 때 토글
-    hamburgerBtn.addEventListener("click", function(e) {
-        e.stopPropagation(); // 버튼 클릭 시 document 이벤트로 안넘어가게 막음
-        navBox.style.display = (navBox.style.display === "block") ? "none" : "block";
-    });
+    function setupMobileMenu() {
+        // 햄버거 버튼 눌렀을 때 토글
+        hamburgerBtn.addEventListener("click", function(e) {
+            if (window.innerWidth > 768) return; // ✅ PC에서는 무시
+            e.stopPropagation();
+            navBox.style.display = (navBox.style.display === "block") ? "none" : "block";
+        });
 
-    // 메뉴 안 클릭 시 닫히게 (링크 이동 전 자동 닫기)
-    navBox.addEventListener("click", function(e) {
-        if (e.target.tagName === "A") {
-            navBox.style.display = "none";
-        }
-    });
+        // 메뉴 안 클릭 시 닫히게
+        navBox.addEventListener("click", function(e) {
+            if (window.innerWidth > 768) return; // ✅ PC에서는 무시
+            if (e.target.tagName === "A") {
+                navBox.style.display = "none";
+            }
+        });
 
-    // ✅ 바깥 아무 곳 클릭하면 닫기
-    document.addEventListener("click", function(e) {
-        if (!navBox.contains(e.target) && e.target !== hamburgerBtn) {
-            navBox.style.display = "none";
+        // 바깥 아무 곳 클릭하면 닫기
+        document.addEventListener("click", function(e) {
+            if (window.innerWidth > 768) return; // ✅ PC에서는 무시
+            if (!navBox.contains(e.target) && e.target !== hamburgerBtn) {
+                navBox.style.display = "none";
+            }
+        });
+    }
+
+    setupMobileMenu();
+
+    // ✅ 윈도우 크기 바뀔 때 메뉴 자동 초기화
+    window.addEventListener("resize", function() {
+        if (window.innerWidth > 768) {
+            navBox.style.display = "block"; // PC에서는 항상 보이게
+        } else {
+            navBox.style.display = "none";  // 모바일에서는 기본적으로 숨김
         }
     });
 });
 </script>
+
 
 <div style="
     background-image: url('/static/photo/back.png');
@@ -133,34 +150,35 @@ document.addEventListener("DOMContentLoaded", function() {
         </a>
     </div>
 
-    <!-- 우측 네비게이션 + 아이콘 감싸는 박스 -->
-    <div class="nav-wrapper">
-        <!-- 햄버거 버튼 -->
-        <button class="hamburger" id="hamburger-btn">
-            ☰
-        </button>
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 3rem 1rem;">
+        <!-- 우측 네비게이션 + 아이콘 감싸는 박스 -->
+        <div class="nav-wrapper">
+            <!-- 햄버거 버튼 -->
+            <button class="hamburger" id="hamburger-btn">
+                ☰
+            </button>
 
-        <!-- 네비게이션 -->
-        <div class="nav-box" id="nav-box">
-            <nav>
-                <ul class="nav-list">
-                    {% if user.username == 'icpadmin'%}
-                    <li><a href="{% url 'mainpage:test' %}">Admin</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'mainpage:home' %}">ICPA</a></li>
-                    <li><a href="{% url 'mainpage:search' %}">Search</a></li>
-                    <li><a href="#">사업소개</a></li>
-                    <li><a href="{% url 'mainpage:news' %}">동문소식</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
+            <!-- 네비게이션 -->
+            <div class="nav-box" id="nav-box">
+                <nav>
+                    <ul class="nav-list">
+                        {% if user.username == 'icpadmin'%}
+                        <li><a href="{% url 'mainpage:test' %}">Admin</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'mainpage:home' %}">ICPA</a></li>
+                        <li><a href="{% url 'mainpage:search' %}">Search</a></li>
+                        <li><a href="#">사업소개</a></li>
+                        <li><a href="{% url 'mainpage:news' %}">동문소식</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
 
 
         {% if not user.is_authenticated %}
         <!-- is not LogIn -->
-        <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
             <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
                 <a href="{% url 'account:login' %}?next={% url 'mainpage:home' %}">
                     login
@@ -183,29 +201,32 @@ document.addEventListener("DOMContentLoaded", function() {
         </a>
         -->
 
-        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
-            <form action="{% url 'account:logout' %}?next={% url 'mainpage:home' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" style="all: unset; cursor: pointer;">logout</button>
-            </form>
-        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+                <form action="{% url 'account:logout' %}?next={% url 'mainpage:home' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="all: unset; cursor: pointer;">logout</button>
+                </form>
+            </div>
+    
+            
+            <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+                <!-- if user has no profile -->
+                {% if not user.profile %}
+                <a href="{% url 'account:detail' pk=user.pk %}">
+                    person
+                </a>
+    
+                {% else %}
+                <!-- if user has profile -->
+                <a href="{% url 'account:detail' pk=user.pk %}">
+                    person
+                </a>
+                {% endif %}
+            </div>
 
-        
-        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
-            <!-- if user has no profile -->
-            {% if not user.profile %}
-            <a href="{% url 'account:detail' pk=user.pk %}">
-                person
-            </a>
-
-            {% else %}
-            <!-- if user has profile -->
-            <a href="{% url 'account:detail' pk=user.pk %}">
-                person
-            </a>
-            {% endif %}
         </div>
         
         {% endif %}
-
-    </div>
+    </header>
+</div>

@@ -2,41 +2,103 @@
 
 {% block content %}
 
+<style>
+/* 공통 스타일 */
+.news-card {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #1f1f1f, #2e2e2e);
+  color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-img img {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 3px solid #888;
+  background-color: #fff;
+}
+
+.news-content {
+  flex-grow: 1;
+  margin-left: 2rem;
+}
+
+.news-content h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.news-text {
+  margin-top: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.news-text p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 768px) {
+  .news-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .news-img img {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* 너무 커지지 않도록 제한 */
+    margin-bottom: 1rem;
+  }
+
+  .news-content {
+    margin-left: 0;
+  }
+
+  .news-content h2 {
+    font-size: 1.4rem;
+  }
+
+  .news-text p {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
 <div>
     <div style="text-align: center; max-width: 100%; margin: 4rem auto;">
-        
+    
+    <div class="news-card"
+      onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.6)'"
+      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.4)'">
+      
+      <!-- News Image -->
+      <div class="news-img">
+        <img src="{{ target_news.img.url }}"
+            alt="News 이미지">
+      </div>
 
-        <div style="
-        max-width: 800px;
-        margin: 3rem auto;
-        padding: 1.5rem 2rem;
-        border-radius: 1rem;
-        background: linear-gradient(135deg, #1f1f1f, #2e2e2e);
-        color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;"
-        onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.6)'"
-        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.4)'">
-
-            <div style="flex-shrink: 0; margin-right: 2rem;">
-                <img src="{{ target_news.img.url }}"
-                    alt="News 이미지"
-                    style="width: 400px; height: 400px; object-fit: contain; border-radius: 10px; border: 3px solid #888;background-color: #fff;  /* 빈 공간 대비용 배경색 */">
-            </div>
-
-            <!-- News Content -->
-            <div style="flex-grow: 1;">
-                <h2 style="margin: 0; font-size: 1.8rem;">{{ target_news.title }}</h2>
-
-                <div style="margin-top: 1rem; background-color: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: #ddd;">
-                        {{ target_news.content }}
-                    </p>
-                </div>
-            </div>
+      <!-- News Content -->
+      <div class="news-content">
+        <h2>{{ target_news.title }}</h2>
+        <div class="news-text">
+          <p>{{ target_news.content }}</p>
         </div>
+      </div>
+    </div>
 
         {% if is_admin %}
         <a class="material-icons"
