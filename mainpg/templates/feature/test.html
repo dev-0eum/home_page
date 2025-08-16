@@ -4,7 +4,7 @@
 {% block content %}
 
 {% if is_admin %}
-<div style="text-align: center;">
+<div class="text-center">
     <br>
     <h1> Test Page </h3>
     <h4>View Profiles</h4>
@@ -52,7 +52,7 @@
 
 </div>
 {% else %}
-<div style="text-align: center;">
+<div class="text-center">
     <h2>Only For Admin</h2>
     <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">Return to Home</a>
 </div>

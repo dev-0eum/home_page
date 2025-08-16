@@ -1,9 +1,113 @@
 {% load static %}
+<style>
+    .logo {
+        height: 150px;
+        margin-left: 20px;
+    }
+    /* 기본 네비게이션 (데스크탑) */
+    .nav-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    }
+
+    .hamburger {
+    display: none; /* 데스크탑에서는 숨김 */
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    }
+
+    .nav-box {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: rgb(153, 202, 255);
+    }
+
+    .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    }
+
+    .nav-list li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    }
+
+    /* ✅ 모바일 (햄버거 적용) */
+    @media (max-width: 768px) {
+    .logo {
+        height: 100px;
+        margin-left: 20px;
+    }
+
+    .hamburger {
+        color: black;
+        display: block;  /* 모바일에서 버튼 표시 */
+    }
+
+    .nav-box {
+        display: none;   /* 기본은 닫힘 */
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        background-color: rgb(153, 202, 255);
+        border-radius: 10px;
+        padding: 10px;
+        width: 200px;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .nav-box.active {
+        display: block;  /* 버튼 클릭 시 활성화 */
+    }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const navBox = document.getElementById("nav-box");
+
+    // 햄버거 버튼 눌렀을 때 토글
+    hamburgerBtn.addEventListener("click", function(e) {
+        e.stopPropagation(); // 버튼 클릭 시 document 이벤트로 안넘어가게 막음
+        navBox.style.display = (navBox.style.display === "block") ? "none" : "block";
+    });
+
+    // 메뉴 안 클릭 시 닫히게 (링크 이동 전 자동 닫기)
+    navBox.addEventListener("click", function(e) {
+        if (e.target.tagName === "A") {
+            navBox.style.display = "none";
+        }
+    });
+
+    // ✅ 바깥 아무 곳 클릭하면 닫기
+    document.addEventListener("click", function(e) {
+        if (!navBox.contains(e.target) && e.target !== hamburgerBtn) {
+            navBox.style.display = "none";
+        }
+    });
+});
+</script>
+
 <div style="
     background-image: url('/static/photo/back.png');
     background-size: cover;
     background-position: center;
-    height: 200px;
+    height: 50%;
+    width: 100%;
     padding: 0 30px;
     display: flex;
     align-items: center;
@@ -25,40 +129,50 @@
     <!-- 로고 -->
     <div>
         <a href="{% url 'mainpage:home' %}">
-            <img src="{% static '/photo/icpalogo2.png' %}" alt="ICPA 로고" style="height: 150px; margin-left: 20px;">
+            <img class="logo" src="{% static '/photo/icpalogo2.png' %}" alt="ICPA 로고">
         </a>
     </div>
 
     <!-- 우측 네비게이션 + 아이콘 감싸는 박스 -->
-    <div style="display: flex; align-items: center; gap: 20px;">
+    <div class="nav-wrapper">
+        <!-- 햄버거 버튼 -->
+        <button class="hamburger" id="hamburger-btn">
+            ☰
+        </button>
+
         <!-- 네비게이션 -->
-        <div style="padding: 8px 16px; border-radius: 20px; background-color: rgb(153, 202, 255);">
-            <nav style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 3px; margin-bottom: 3px;">
-                <ul style="list-style: none; display: flex; gap: 20px; justify-content: center; margin: 0; padding: 0;">
-                {% if user.username == 'icpadmin'%}
-                <li><a href="{% url 'mainpage:test' %}" style="text-decoration: none; color: black;">Admin</a></li>
-                {% endif %}
-                <li><a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">ICPA</a></li>
-                <li><a href="{% url 'mainpage:search' %}" style="text-decoration: none; color: black;">Search</a></li>
-                <li><a href="#" style="text-decoration: none; color: black;">사업소개</a></li>
-                <li><a href="{% url 'mainpage:news' %}" style="text-decoration: none; color: black;">동문소식</a></li>
-                <li><a href="#" style="text-decoration: none; color: black;">Contact</a></li>
+        <div class="nav-box" id="nav-box">
+            <nav>
+                <ul class="nav-list">
+                    {% if user.username == 'icpadmin'%}
+                    <li><a href="{% url 'mainpage:test' %}">Admin</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'mainpage:home' %}">ICPA</a></li>
+                    <li><a href="{% url 'mainpage:search' %}">Search</a></li>
+                    <li><a href="#">사업소개</a></li>
+                    <li><a href="{% url 'mainpage:news' %}">동문소식</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
         </div>
+    </div>
+
 
         {% if not user.is_authenticated %}
         <!-- is not LogIn -->
-        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
-            <a href="{% url 'account:login' %}?next={% url 'mainpage:home' %}">
-                login
-            </a>
-        </div>
+        <div>
+            <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+                <a href="{% url 'account:login' %}?next={% url 'mainpage:home' %}">
+                    login
+                </a>
+            </div>
+    
+            <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
+                <a href="{% url 'account:signup' %}">
+                        group add
+                </a>
+            </div>
 
-        <div class="material-icons" style="padding: 8px 8px; border-radius: 20px; border: solid 1px;">
-            <a href="{% url 'account:signup' %}">
-                    group add
-            </a>
         </div>
 
         {% else %}
@@ -95,4 +209,3 @@
         {% endif %}
 
     </div>
-</div>

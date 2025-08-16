@@ -1,4 +1,63 @@
 {% load static %}
+
+<style>
+        .card-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            width: 500px; /* 필요에 따라 조정 가능 */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            height: 220px;
+            text-align: center;
+            object-fit: cover;
+            background-color: #ddd;
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .card-text {
+            flex-grow: 1; /* 남는 공간 채우기 */
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .card-date {
+            padding: 0 10px 10px;
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media screen and (max-width:500px){
+            .card {
+            width: 300px; /* 필요에 따라 조정 가능 */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            }
+
+
+        }
+</style>
 <!-- templates/cardlist.html -->
 <div class="card-list">
     {% for news in news_list %}

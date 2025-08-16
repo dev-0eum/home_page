@@ -3,6 +3,21 @@
 
 {% block content %}
 
+<style>
+    .search-box{
+        padding: 28px 16px; 
+        border: 2px solid black; 
+        border-radius: 2rem; 
+        margin: 3rem 8rem;
+    }
+    @media (max-width: 576px) {
+        .search-box {
+            padding: 20px 10px; 
+            margin: 2rem 1rem;
+        }
+    }
+</style>
+
 <div style="text-align: center;">
     <br>
     <h1> Search </h3>
@@ -38,7 +53,7 @@
     </div>
         
     <!-- bootstrap4 Table -->
-    <div style="padding: 28px 16px; border: 2px solid black; border-radius: 2rem; margin: 3rem 8rem;">
+    <div class="search-box">
         <table class="table table-striped">
             <thead>
                 <tr>

@@ -1,5 +1,5 @@
 {% load static %}
-<div style="text-align: center;font-family: Pochaevsk;">
+<div class="footer_div" style="text-align: center;font-family: Pochaevsk;">
     <style>
         .footer {
             background-color: #dddddd;
@@ -14,6 +14,22 @@
 
         .footer img {
             height: 60px;
+        }
+
+        @media screen and (max-width:500px){
+            .footer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer img {
+                height: 50px;
+            }
+
+            .footer-section {
+                text-align: center;
+                margin-bottom: 20px;
+            }
         }
     </style>
 
