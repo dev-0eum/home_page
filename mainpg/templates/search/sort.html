@@ -20,7 +20,7 @@
 
 <div style="text-align: center;">
     <br>
-    <h1> Search </h3>
+    <h1> Search </h1>
     <h4>View Alumini</h4>
 
     <div class="container">
@@ -52,6 +52,7 @@
         </div>
     </div>
         
+    {% if target_user == user or can_view %}
     <!-- bootstrap4 Table -->
     <div class="search-box">
         <table class="table table-striped">
@@ -81,6 +82,15 @@
         </table>
     </div>
     {% include 'snippets/pagination.html' with page_obj=page_obj %}
+
+    {% else %}
+    <div class="text-center" style="margin: 100px;">
+        <h2>Only For Alumini</h2>
+        <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">
+            <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: black; color: white; margin-top: 10px;">Return to Home</button>
+        </a>
+    </div>
+    {% endif %}
 </div>
 <br>
 
