@@ -70,6 +70,12 @@ class UserCreateView(CreateView):
     success_url = reverse_lazy('mainpage:home') # class에서는 lazy 사용
     template_name = 'accounts/create.html'
 
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        return super().form_valid(form)
+
 class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
