@@ -45,6 +45,10 @@ class SearchView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # to check Permission(can_view)
+        user = self.request.user
+        context['can_view'] = user.groups.filter(name='search').exists()
+
         context['sort'] = self.request.GET.get('sort', 'name')  # 현재 정렬 기준을 템플릿에 전달
         return context
 
