@@ -37,6 +37,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'https://*.githubpreview.dev',
+    'https://*.ngrok-free.app',
+    'https://your-custom-domain.com',
+]
+
 # Application definition
 
 INSTALLED_APPS = [

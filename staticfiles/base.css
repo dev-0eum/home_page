@@ -7,6 +7,9 @@
     html{
         font-size: 13px;
     }
+    .footer_div{
+        font-size: 100px;
+    }
 }
 
 a {
@@ -95,4 +98,9 @@ a:hover {
       drop-shadow(0 0 20px rgba(2, 2, 2, 1));
     transform: rotate(-35deg);
   }
+  
+  .text-center{
+    text-align: center;
+  }
+
   
