@@ -42,6 +42,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.githubpreview.dev',
     'https://*.ngrok-free.app',
     'https://your-custom-domain.com',
+    'https://icpa-alumini.kr',
 ]
 
 # Application definition
