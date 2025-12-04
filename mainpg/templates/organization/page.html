@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .centre {
+        margin: 0 auto;
+        max-width: 1080px;
+        padding: 0 24px 72px;
+        text-align: center;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 50px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+    .center-img{
+        /* 1. 중앙 정렬 */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    /* 2. 크기 제한 (반응형) */
+    max-width: 1000px; /* 원하는 최대 너비 설정 (예: 500px) */
+    width: 100%;      /* 화면이 작을 때는 꽉 차게 줄어듦 */
+    height: auto;     /* 비율 유지 */
+    }
+</style>
+
+<div class="centre">
+    <div class="title">
+        Organization
+    </div>
+
+    <div>
+        {% for i in org_img %}
+        <img src="{{i.img.url}}" alt="TBA" class="center-img">
+        <br><br>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-dark rounded-pill col-3 mt-3 mb-5">
+        <a href="{% url 'mainpage:org_add' %}" style="color: white; text-decoration: none;">
+            Upload Image
+        </a>
+    </button>
+
+    <button class="btn btn-danger rounded-pill col-3 mt-3 mb-5">
+        <a href="{% url 'mainpage:org_del'%}" style="color: white; text-decoration: none;">
+            Delete Image
+        </a>
+    </button>
+   
+</div>
+
+{% endblock %}

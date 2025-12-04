@@ -1,0 +1,111 @@
+<!--
+커피챗에 해당하는 페이지
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .centre {
+        margin: 0 auto;
+        max-width: 1080px;
+        padding: 0 24px 72px;
+    }
+
+    .coffee-chat-title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 50px;
+        margin-top: 30px;
+    }
+
+    .AttExp{
+        display: inline-block; 
+        margin-left: 2rem;
+        font: 700 50px;
+        font-weight: 700;
+    }
+
+    .more {
+        background-color: #99caff;
+        border-radius: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        line-height: 30px;
+        margin-left: 5px;
+        padding: 0 12px;
+        vertical-align: 3px;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .card.border-info.card-item {
+        padding: 10px;
+       margin-right: 1rem;
+       margin-top: 10px;
+       margin-bottom: 10px;
+       width: 500px;
+       height: 230px;
+    }
+
+    .card-slider {
+        display: flex;
+        flex-wrap: nowrap;
+        margin: -4px -6px -8px;
+        overflow: hidden;
+        padding: 4px 6px 8px;
+        position: relative;
+        width: 100%;
+    }
+</style>
+
+
+<div>
+    <div class="centre">
+        <div class="coffee-chat-title">
+            QNA
+        </div>
+        <p style="text-align: center;">선후배 간의 경험 공유를 위한 질문의 장</p>
+        
+
+        <div style="padding-bottom: 2rem;">
+            <h2 class="AttExp">Attitude</h2>
+            <a href="{% url 'mainpage:attitude' %}" class="more"> 더 보기 </a>
+        
+            <div class="card-slider">
+                <div class="card border-info card-item">
+                    <a href="{% url 'mainpage:atti_detail' %}">
+                        {% include 'snippets/qna_card.html' %}
+                    </a>
+                </div>
+
+                <div class="card border-info card-item" style="margin-top: 10px;">
+                    {% include 'snippets/qna_card.html' %}
+                </div>
+                <div class="card border-info card-item" style="margin-top: 10px;">
+                    {% include 'snippets/qna_card.html' %}
+                </div>
+            </div>
+        
+        </div>
+        
+        <div style="padding-bottom: 2rem;">
+            <h2 class="AttExp">Experience</h2>
+            <a href="{% url 'mainpage:experience' %}" class="more"> 더 보기 </a>
+        
+            <div class="card-slider">
+                <div class="card border-info card-item">
+                    {% include 'snippets/qna_card.html' %}
+                </div>
+                <div class="card border-info card-item" style="margin-top: 10px;">
+                    {% include 'snippets/qna_card.html' %}
+                </div>
+                <div class="card border-info card-item" style="margin-top: 10px;">
+                    {% include 'snippets/qna_card.html' %}
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

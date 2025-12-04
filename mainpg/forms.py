@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from mainpg.models import News
+from mainpg.models import News, OrgImg
 
 
 class NewsForm(ModelForm):
@@ -14,3 +14,7 @@ class NewsUpdateForm(NewsForm):
         # super >> super()로 변경
         super().__init__(*args,**kwargs)
         
+class OrgForm(ModelForm):
+    class Meta:
+        model = OrgImg
+        fields = ['img']

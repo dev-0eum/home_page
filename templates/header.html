@@ -6,6 +6,7 @@
     }
     /* 기본 네비게이션 (데스크탑) */
     .nav-wrapper {
+    margin-right: 7px;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -166,10 +167,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         <li><a href="{% url 'mainpage:test' %}">Admin</a></li>
                         {% endif %}
                         <li><a href="{% url 'mainpage:home' %}">ICPA</a></li>
-                        <li><a href="{% url 'mainpage:search' %}">Search</a></li>
-                        <li><a href="#">사업소개</a></li>
+                        <li><a href="{% url 'mainpage:search' %}">동문검색</a></li>
                         <li><a href="{% url 'mainpage:news' %}">동문소식</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{% url 'mainpage:org' %}">동창회</a></li>
+                        <li><a href="{% url 'mainpage:qna' %}">커피챗</a></li>
                     </ul>
                 </nav>
             </div>

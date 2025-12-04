@@ -8,3 +8,6 @@ class News(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     
+class OrgImg(models.Model):
+    img = models.ImageField(upload_to='org/', null=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=False)

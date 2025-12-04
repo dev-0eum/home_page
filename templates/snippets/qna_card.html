@@ -1,0 +1,107 @@
+{% load static %}
+
+<style>
+    .q_title{
+        color: #292929;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 6px;
+        position: relative;
+        padding-top: 5px;
+        padding-left: 40px;
+    }
+    .q_title::before{
+        color: #c62917;
+        content: "Q.";
+        font-size: 24px;
+        font-weight: 400;
+        left: 10px;
+        line-height: 26px;
+        position: absolute;
+        top: 0;
+    }
+    .q_title_inner{
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .a_title{
+        color: #292929;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 24px;
+        margin-bottom: 6px;
+        position: relative;
+        padding-top: 5px;
+        padding-left: 40px;
+    }
+    .a_title::before{
+        color: #99caff;
+        content: "A.";
+        font-size: 24px;
+        font-weight: 400;
+        left: 10px;
+        line-height: 26px;
+        position: absolute;
+        top: 0;
+    }
+    .a_title_inner{
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .qna-body{
+        padding-left: 40px;
+        color: #444444;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        margin-bottom: 12px;
+        max-height: 44px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .qna-date{
+        color: #888888;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        padding-left: 40px;
+        text-align: right;
+    }
+</style>
+
+<div class="qna-header">
+    <div class="q_title">
+        <div class="q_title_inner">
+            제목 테스트 QNA
+        </div>
+    </div>
+</div>
+
+<div class="qna-body">
+    QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 |
+</div>
+
+<div class="a_title">
+    <div class="a_title_inner">
+        제목 테스트 QNA
+    </div>
+</div>
+
+<div class="qna-body">
+    QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 |
+</div>
+
+<div class="qna-date">
+    <!-- {{ news.created_at|date:"Y.m.d" }} -->
+    2024.06.10
+</div>
+

@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from accounts.models import Alumini
 from django.contrib.auth.models import User
 from mainpg.forms import *
-from mainpg.models import News
+from mainpg.models import News, OrgImg
 
 # Create your views here.
 def home_view(request):
@@ -52,7 +52,25 @@ class SearchView(ListView):
         context['sort'] = self.request.GET.get('sort', 'name')  # 현재 정렬 기준을 템플릿에 전달
         return context
 
+############# QNA #############
+class QNAView(TemplateView):
+    template_name = 'coffee-chat/qna.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        news_list = News.objects.all().order_by('-created_at')[:10]
+        context['news_list'] = news_list
+        return context
+
+class AttiView(TemplateView):
+    template_name = 'coffee-chat/atti_feed.html'
+
+
+class AttiDetailView(TemplateView):
+    template_name = 'coffee-chat/atti_detail.html'
+
+class ExpView(TemplateView):
+    template_name = 'coffee-chat/exp_feed.html'
 
 ############# News #############
 class NewsView(ListView):
@@ -140,6 +158,70 @@ class NewsDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
+        context['is_admin'] = user.groups.filter(name='admin').exists()
+        return context
+
+
+############# Organization ################
+class OrgView(TemplateView):
+    model = OrgImg
+    context_object_name = 'target_img'
+    template_name = 'organization/page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['org_img'] = OrgImg.objects.all().order_by('-created_at')
+        return context
+
+
+
+class OrgCreateView(CreateView):
+    model = OrgImg
+    context_object_name = 'org_img'
+    form_class = OrgForm
+    template_name = 'organization/create.html'
+
+    # Form을 임시로 받아서, temp의 정보와 req의 정보가 동일한지 체크
+    def form_valid(self, form):
+        # temp에 form 임시 저장 
+        temp = form.save(commit=False)
+        group_names = [group.name for group in self.request.user.groups.all()]
+        print(group_names)
+
+        # Admin 그룹권한 확인
+        if('admin' in group_names):
+            # 실제로 데이터 저장
+            temp.save()
+            return super().form_valid(form)
+        else:
+            print("Permission Denied")
+
+    # Redirect to URL
+    def get_success_url(self):
+        return reverse('mainpage:org')
+    
+class OrgDeleteView(DeleteView):
+    model = OrgImg
+    context_object_name = 'target_org'
+    success_url = reverse_lazy('mainpage:org')
+    template_name = 'organization/delete.html'
+
+    ####### 핵심: URL의 PK 대신 로직으로 삭제할 객체를 지정 #######
+    def get_object(self, queryset=None):
+        # 1. 가장 최근에 생성된 객체를 가져옴
+        obj = OrgImg.objects.order_by('-created_at').first()
+        
+        # 2. 만약 지울 데이터가 하나도 없다면 404 에러 발생 또는 예외 처리
+        if obj is None:
+            raise Http404("삭제할 이미지가 없습니다.")
+            
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # current user
+        user = self.request.user
+        # is admin?
         context['is_admin'] = user.groups.filter(name='admin').exists()
         return context
 
