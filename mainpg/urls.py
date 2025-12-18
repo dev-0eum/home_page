@@ -19,7 +19,7 @@ urlpatterns = [
     path('org_del/', OrgDeleteView.as_view(), name='org_del'),
     # question
     path('qna/', QNAView.as_view(), name='qna'),
-    path('atti_feed/', AttiView.as_view(), name='attitude'),
+    path('feed/<int:category_id>/', FeedView.as_view(), name='feed'),
     path('atti_detail/', AttiDetailView.as_view(), name='atti_detail'),
     path('exp_feed/', ExpView.as_view(), name='experience'),
     path('ask/', QuestionCreateView.as_view(), name='ask'),

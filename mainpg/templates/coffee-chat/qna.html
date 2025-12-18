@@ -1,7 +1,3 @@
-<!--
-커피챗에 해당하는 페이지
--->
-
 {% extends 'base.html' %}
 {% load static %}
 
@@ -21,7 +17,7 @@
         margin-top: 30px;
     }
 
-    .AttExp{
+    .Category-title {
         display: inline-block; 
         margin-left: 1rem;
         font: 700 50px;
@@ -80,8 +76,8 @@
         <!-- Start: Category List -->
         {% for c in target_category %}
         <div style="padding-bottom: 2rem;">
-            <h2 class="AttExp"> {{ c.name }}</h2>
-            <a href="{% url 'mainpage:attitude' %}" class="more"> 더 보기 </a>
+            <h2 class="Category-title "> {{ c.name }}</h2>
+            <a href="{% url 'mainpage:feed' category_id=c.id %}" class="more"> 더 보기 </a>
         
             <div class="card-slider">
                 <div class="card border-info card-item">

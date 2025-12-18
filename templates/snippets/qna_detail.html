@@ -81,21 +81,22 @@
     }
 </style>
 
-<div class="qna-header">
-    <div class="q_title">
-        <div class="q_title_inner">
-            {{ target_question.title }}
+<div>
+    <div class="qna-header">
+        <div class="q_title">
+            <div class="q_title_inner">
+                {{ target_question.title }}
+            </div>
         </div>
     </div>
+    
+    <div class="qna-body">
+        {{ target_question.author }} <br><br>
+        {{ target_question.content }}
+    </div>
+    
+    
+    <div class="qna-date">
+        [{{ target_question.category }}] | {{ target_question.created_at|date:"Y.m.d" }}
+    </div>
 </div>
-
-<div class="qna-body">
-    {{ target_question.author }} <br><br>
-    {{ target_question.content }}
-</div>
-
-
-<div class="qna-date">
-    [{{ target_question.category }}] | {{ target_question.created_at|date:"Y.m.d" }}
-</div>
-

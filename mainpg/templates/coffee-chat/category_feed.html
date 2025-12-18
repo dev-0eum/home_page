@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .centre {
+        margin: 0 auto;
+        max-width: 1080px;
+        padding: 0 24px 72px;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 50px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+</style>
+
+<div class="centre">
+    <div class="title">
+        {{ target_category.name }} QNA
+    </div>
+
+    
+    {% for question in feed_list %}
+    <a href="{% url 'mainpage:question_detail' pk=question.id %}">
+        <div class="card border-info card-item">
+            {% include 'snippets/qna_detail.html' with target_question=question %}
+        </div>
+    </a>
+    <br>
+    {% empty %}
+    <p>아직 등록된 글이 없습니다.</p>
+    {% endfor %}
+    
+    <div style="text-align: center;">
+        <a href="{% url 'mainpage:qna' %}" class="btn btn-outline-secondary">목록으로</a>
+    </div>
+</div>
+
+{% endblock %}

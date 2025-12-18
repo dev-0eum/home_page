@@ -64,9 +64,29 @@ class QNAView(ListView):
     #     context['news_list'] = news_list
     #     return context
 
-class AttiView(TemplateView):
-    template_name = 'coffee-chat/atti_feed.html'
+from django.shortcuts import get_object_or_404
+class FeedView(ListView):
+    model = Question
+    context_object_name = 'feed_list'
+    template_name = 'coffee-chat/category_feed.html'
 
+    # 1. URL의 category_id에 맞는 글만 필터링해서 보여줌
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        return Question.objects.filter(category_id=category_id).order_by('-created_at')
+
+    # 2. 템플릿 상단에 "학업 Feed"라고 띄우기 위해 카테고리 정보 전달
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # URL에 있는 category_id를 가져옴
+        category_id = self.kwargs.get('category_id')
+        
+        # DB에서 해당 id의 Category 객체를 가져와서 context에 'target_category'로 저장
+        # get_object_or_404를 쓰면 없는 카테고리 접속 시 404 에러를 띄워줘서 안전함
+        context['target_category'] = get_object_or_404(Category, id=category_id)
+        
+        return context
 
 class AttiDetailView(TemplateView):
     template_name = 'coffee-chat/atti_detail.html'
