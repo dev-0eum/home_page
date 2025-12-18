@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style>
+    .centre {
+        margin: 0 auto;
+        max-width: 1080px;
+        padding: 0 24px 72px;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 50px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+</style>
+
+<div class="centre">
+    <div class="title">
+        Attitude
+    </div>
+
+    <a href="{% url 'mainpage:atti_detail' %}">
+        <div class="card border-info card-item">
+            {% include 'snippets/qna_detail.html' with target_question=target_question %}
+        </div>
+    </a>
+
+    <!-- 질문 작성자 제거 -->
+    {% if user.profile.name == target_question.author.name %}
+    <div style="text-align: center; max-width: 100%; margin-top: 1rem;">
+        <a class="material-icons"
+        style="box-shadow: 0 0 4px #ff0000; border-radius: 10rem; padding: .4rem;"
+        href="{% url 'mainpage:question_delete' pk=target_question.pk %}">
+            cancel
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

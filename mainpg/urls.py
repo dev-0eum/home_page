@@ -17,8 +17,16 @@ urlpatterns = [
     path('detail/<int:pk>', NewsDetailView.as_view(), name='detail'),
     path('update/<int:pk>', NewsUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', NewsDeleteView.as_view(), name='delete'),
+    # org
     path('org/', OrgView.as_view(), name='org'),
     path('org_add/', OrgCreateView.as_view(), name='org_add'),
     path('org_del/', OrgDeleteView.as_view(), name='org_del'),
+    # question
+    path('ask/', QuestionCreateView.as_view(), name='ask'),
+    path('question/<int:pk>', QuestionDetailView.as_view(), name='question_detail'),
+    path('question/<int:pk>/delete/', QuestionDeleteView.as_view(), name='question_delete'),
+    #path('question/<int:pk>/answer/', AnswerCreateView.as_view(), name='answer_create'),
+
+    # api
     path("api/text/", hello),
 ]

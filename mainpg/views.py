@@ -224,6 +224,48 @@ class OrgDeleteView(DeleteView):
         # is admin?
         context['is_admin'] = user.groups.filter(name='admin').exists()
         return context
+    
+############# Question #############
+from django.contrib import messages # 메시지 모듈 import
+class QuestionCreateView(CreateView):
+    model = Question
+    context_object_name = 'question'
+    form_class = QuestionForm
+    template_name = 'coffee-chat/question/create.html'
+
+    def form_valid(self, form):
+        try:
+            # 현재 유저의 Alumini 정보 가져오기 시도
+            alumini = Alumini.objects.get(user=self.request.user)
+            
+            temp = form.save(commit=False)
+            temp.author = alumini
+            temp.save()
+            return super().form_valid(form)
+            
+        except Alumini.DoesNotExist:
+            # Alumini 정보가 없으면 에러 페이지나 프로필 생성 페이지로 리다이렉트
+            # 여기서는 예시로 메인 페이지로 보내면서 에러 메시지를 남기는 방식입니다.
+            # (messages 프레임워크를 쓴다면 user에게 알림을 줄 수 있음)
+            # 1. 사용자에게 보낼 메시지 적재 (level: ERROR)
+            #messages.error(self.request, "동문 프로필 정보가 없습니다. 프로필을 먼저 생성해주세요!")
+            return HttpResponseRedirect(reverse('account:create'))
+
+    def get_success_url(self):
+        return reverse('mainpage:qna')
+
+
+class QuestionDetailView(DetailView):
+    model = Question
+    context_object_name = 'target_question'
+    template_name = 'coffee-chat/question/detail.html'
+
+class QuestionDeleteView(DeleteView):
+    model = Question
+    context_object_name = 'target_question'
+    success_url = reverse_lazy('mainpage:qna')
+    template_name = 'coffee-chat/question/delete.html'
+
 
 ############# DRF API #############
 from django.http import JsonResponse
