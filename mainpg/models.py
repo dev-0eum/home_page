@@ -25,6 +25,7 @@ class Question(models.Model):
     author = models.ForeignKey(Alumini, on_delete=models.CASCADE, related_name='questions')
     title = models.CharField(max_length=100,null=False)
     content = models.TextField(null=False)
+    anonymous = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, null=False)
 
@@ -40,6 +41,7 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     author = models.ForeignKey(Alumini, on_delete=models.CASCADE, related_name='answers')
     content = models.TextField(null=False)
+    anonymous = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, null=False)
 
