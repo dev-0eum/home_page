@@ -53,14 +53,16 @@ class SearchView(ListView):
         return context
 
 ############# QNA #############
-class QNAView(TemplateView):
+class QNAView(ListView):
+    model = Category
+    context_object_name = 'target_category'
     template_name = 'coffee-chat/qna.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        news_list = News.objects.all().order_by('-created_at')[:10]
-        context['news_list'] = news_list
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     news_list = News.objects.all().order_by('-created_at')[:10]
+    #     context['news_list'] = news_list
+    #     return context
 
 class AttiView(TemplateView):
     template_name = 'coffee-chat/atti_feed.html'

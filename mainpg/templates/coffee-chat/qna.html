@@ -23,7 +23,7 @@
 
     .AttExp{
         display: inline-block; 
-        margin-left: 2rem;
+        margin-left: 1rem;
         font: 700 50px;
         font-weight: 700;
     }
@@ -33,7 +33,7 @@
         border-radius: 15px;
         color: rgba(0, 0, 0, 0.5);
         line-height: 30px;
-        margin-left: 5px;
+        margin-left: 10px;
         padding: 0 12px;
         vertical-align: 3px;
         display: inline-block;
@@ -58,6 +58,11 @@
         position: relative;
         width: 100%;
     }
+
+    .rightbtn {
+        text-align: right; 
+        margin-bottom: 1rem;
+    }
 </style>
 
 
@@ -68,9 +73,14 @@
         </div>
         <p style="text-align: center;">선후배 간의 경험 공유를 위한 질문의 장</p>
         
+        <div class="rightbtn">
+            <a href="{% url 'mainpage:ask' %}" class="btn btn-outline-secondary">질문하기</a>
+        </div>
 
+        <!-- Start: Category List -->
+        {% for c in target_category %}
         <div style="padding-bottom: 2rem;">
-            <h2 class="AttExp">Attitude</h2>
+            <h2 class="AttExp"> {{ c.name }}</h2>
             <a href="{% url 'mainpage:attitude' %}" class="more"> 더 보기 </a>
         
             <div class="card-slider">
@@ -87,24 +97,9 @@
                     {% include 'snippets/qna_card.html' %}
                 </div>
             </div>
-        
         </div>
-        
-        <div style="padding-bottom: 2rem;">
-            <h2 class="AttExp">Experience</h2>
-            <a href="{% url 'mainpage:experience' %}" class="more"> 더 보기 </a>
-        
-            <div class="card-slider">
-                <div class="card border-info card-item">
-                    {% include 'snippets/qna_card.html' %}
-                </div>
-                <div class="card border-info card-item" style="margin-top: 10px;">
-                    {% include 'snippets/qna_card.html' %}
-                </div>
-                <div class="card border-info card-item" style="margin-top: 10px;">
-                    {% include 'snippets/qna_card.html' %}
-                </div>
-        </div>
+        {% endfor %}
+        <!-- End: Category List -->
     </div>
 </div>
 
