@@ -81,27 +81,26 @@
 <div class="qna-header">
     <div class="q_title">
         <div class="q_title_inner">
-            제목 테스트 QNA
+            {{ question.title }}
         </div>
     </div>
 </div>
 
 <div class="qna-body">
-    QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 |
+    {{ question.content }}
 </div>
 
 <div class="a_title">
     <div class="a_title_inner">
-        제목 테스트 QNA
+        [{{ question.author }}] 님의 답변
     </div>
 </div>
 
 <div class="qna-body">
-    QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 | QNA Body 테스트 |
+    {{ question.content }}
 </div>
 
 <div class="qna-date">
-    <!-- {{ news.created_at|date:"Y.m.d" }} -->
-    {{ target_question.created_at|date:"Y.m.d" }}
+    [{{ question.category }}] | {{ question.created_at|date:"Y.m.d" }} (답변: {{ question.answers.count }})
 </div>
 

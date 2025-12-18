@@ -46,12 +46,15 @@
         content: "A.";
         font-size: 24px;
         font-weight: 400;
-        left: 10px;
+        margin-top: 24px;
+        left: 24px;
         line-height: 26px;
         position: absolute;
         top: 0;
     }
     .a_title_inner{
+        margin-top: 20px;
+        margin-left: 12px;
         font-size: large;
         display: block;
         text-overflow: ellipsis;
@@ -78,25 +81,51 @@
         line-height: 16px;
         margin-left: 2.5rem;
         margin-bottom: 22px;
+
+    }
+    /* 삭제 버튼 스타일 */
+    .btn-delete {
+        position: absolute; /* 부모(a_title) 기준으로 위치를 잡음 */
+        right: 20px;         /* 부모(a_title) 오른쪽에서 20px 떨어진 위치 */
+        right: 5;
+        top: 20px;          /* a_title_inner의 margin-top과 높이를 맞춤 */
+        
+        /* 버튼 꾸미기 */
+        font-size: 14px;
+        color: #dc3545;     /* 붉은색 */
+        border: 1px solid #dc3545;
+        padding: 4px 12px;
+        border-radius: 15px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .btn-delete:hover {
+        background-color: #dc3545;
+        color: white;
     }
 </style>
 
 <div>
     <div class="qna-header">
-        <div class="q_title">
-            <div class="q_title_inner">
-                {{ target_question.title }}
+        <div class="a_title">
+            <div class="a_title_inner">
+                [{{ target_answer.author }}] 님의 답변
             </div>
+            {% if user.profile.name == target_answer.author.name %} 
+                <a href="{% url 'mainpage:answer_delete' pk=target_answer.pk %}" class="btn-delete">
+                    Delete
+                </a>
+            {% endif %}
         </div>
     </div>
-    
+
     <div class="qna-body">
-        {{ target_question.author }} <br><br>
-        {{ target_question.content }}
+        {{ target_answer.content }}
     </div>
     
     
     <div class="qna-date">
-        [{{ target_question.category }}] | {{ target_question.created_at|date:"Y.m.d" }} (답변: {{ target_question.answers.count }})
+        {{ target_answer.created_at|date:"Y.m.d (h:m:s)" }}
     </div>
 </div>

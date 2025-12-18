@@ -1,0 +1,16 @@
+{% load bootstrap4 %}
+
+{% block content %}
+<div>
+    <div style="text-align: center;max-width: 90%; padding: 3rem; margin: auto;">
+        <hr>
+        <form action="{% url 'mainpage:answer' pk=target_question.pk %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">답변하기</button>
+    </form>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -52,48 +52,6 @@ class SearchView(ListView):
         context['sort'] = self.request.GET.get('sort', 'name')  # 현재 정렬 기준을 템플릿에 전달
         return context
 
-############# QNA #############
-class QNAView(ListView):
-    model = Category
-    context_object_name = 'target_category'
-    template_name = 'coffee-chat/qna.html'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     news_list = News.objects.all().order_by('-created_at')[:10]
-    #     context['news_list'] = news_list
-    #     return context
-
-from django.shortcuts import get_object_or_404
-class FeedView(ListView):
-    model = Question
-    context_object_name = 'feed_list'
-    template_name = 'coffee-chat/category_feed.html'
-
-    # 1. URL의 category_id에 맞는 글만 필터링해서 보여줌
-    def get_queryset(self):
-        category_id = self.kwargs.get('category_id')
-        return Question.objects.filter(category_id=category_id).order_by('-created_at')
-
-    # 2. 템플릿 상단에 "학업 Feed"라고 띄우기 위해 카테고리 정보 전달
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        # URL에 있는 category_id를 가져옴
-        category_id = self.kwargs.get('category_id')
-        
-        # DB에서 해당 id의 Category 객체를 가져와서 context에 'target_category'로 저장
-        # get_object_or_404를 쓰면 없는 카테고리 접속 시 404 에러를 띄워줘서 안전함
-        context['target_category'] = get_object_or_404(Category, id=category_id)
-        
-        return context
-
-class AttiDetailView(TemplateView):
-    template_name = 'coffee-chat/atti_detail.html'
-
-class ExpView(TemplateView):
-    template_name = 'coffee-chat/exp_feed.html'
-
 ############# News #############
 class NewsView(ListView):
     model = News
@@ -247,6 +205,45 @@ class OrgDeleteView(DeleteView):
         context['is_admin'] = user.groups.filter(name='admin').exists()
         return context
     
+
+############# QNA #############
+class QNAView(ListView):
+    model = Category
+    context_object_name = 'target_category'
+    template_name = 'coffee-chat/qna.html'
+
+from django.shortcuts import get_object_or_404
+class FeedView(ListView):
+    model = Question
+    context_object_name = 'feed_list'
+    template_name = 'coffee-chat/category_feed.html'
+    ordering = ['-created_at'] # 최신순 정렬 
+    paginate_by = 5
+
+    # 1. URL의 category_id에 맞는 글만 필터링해서 보여줌
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        return Question.objects.filter(category_id=category_id).order_by('-created_at')
+
+    # 2. 템플릿 상단에 "학업 Feed"라고 띄우기 위해 카테고리 정보 전달
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # URL에 있는 category_id를 가져옴
+        category_id = self.kwargs.get('category_id')
+        
+        # DB에서 해당 id의 Category 객체를 가져와서 context에 'target_category'로 저장
+        # get_object_or_404를 쓰면 없는 카테고리 접속 시 404 에러를 띄워줘서 안전함
+        context['target_category'] = get_object_or_404(Category, id=category_id)
+        
+        return context
+
+class AttiDetailView(TemplateView):
+    template_name = 'coffee-chat/atti_detail.html'
+
+class ExpView(TemplateView):
+    template_name = 'coffee-chat/exp_feed.html'
+
 ############# Question #############
 from django.contrib import messages # 메시지 모듈 import
 class QuestionCreateView(CreateView):
@@ -276,11 +273,23 @@ class QuestionCreateView(CreateView):
     def get_success_url(self):
         return reverse('mainpage:qna')
 
-
-class QuestionDetailView(DetailView):
+from django.views.generic.edit import FormMixin
+class QuestionDetailView(DetailView, FormMixin):
     model = Question
+    form_class = AnswerForm
     context_object_name = 'target_question'
     template_name = 'coffee-chat/question/detail.html'
+
+    # 1. 답변 리스트를 화면에 함께 보내기 (Context 추가)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # 현재 질문에 달린 답변들을 최신순으로 가져옴
+        # (Answer 모델에 related_name='answers'가 설정되어 있다고 가정)
+        context['target_answers'] = self.object.answers.all().order_by('-created_at')
+        
+        # 폼은 FormMixin이 알아서 'form'이라는 키로 context에 넣어줍니다.
+        return context
 
 class QuestionDeleteView(DeleteView):
     model = Question
@@ -288,6 +297,42 @@ class QuestionDeleteView(DeleteView):
     success_url = reverse_lazy('mainpage:qna')
     template_name = 'coffee-chat/question/delete.html'
 
+class AnswerCreateView(CreateView):
+    model = Answer
+    context_object_name = 'answer'
+    form_class = AnswerForm
+    template_name = 'coffee-chat/answer/create.html'
+
+    def form_valid(self, form):
+        try:
+            # 현재 유저의 Alumini 정보 가져오기 시도
+            alumini = Alumini.objects.get(user=self.request.user)
+            
+            temp = form.save(commit=False)
+            temp.author = alumini
+
+            # URL에서 question PK 가져와서 ForeignKey 설정
+            question_pk = self.kwargs.get('pk')
+            temp.question = Question.objects.get(pk=question_pk)
+            temp.save()
+            return super().form_valid(form)
+            
+        except Alumini.DoesNotExist:
+            # Alumini 정보가 없으면 에러 페이지나 프로필 생성 페이지로 리다이렉트
+            return HttpResponseRedirect(reverse('account:create'))
+        
+    def get_success_url(self):
+        return reverse('mainpage:question_detail', kwargs={'pk': self.kwargs.get('pk')})
+
+class AnswerDeleteView(DeleteView):
+    model = Answer
+    context_object_name = 'target_answer'
+    template_name = 'coffee-chat/answer/delete.html'
+
+    def get_success_url(self):
+        # 삭제된 답변의 질문 상세 페이지로 리다이렉트
+        question_pk = self.object.question.pk
+        return reverse_lazy('mainpage:question_detail', kwargs={'pk': question_pk})
 
 ############# DRF API #############
 from django.http import JsonResponse

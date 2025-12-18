@@ -55,3 +55,10 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = ['content']
+
+        widgets = {
+            'title': TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': '제목을 입력하세요'
+            }),
+        }

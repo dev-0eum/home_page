@@ -28,6 +28,9 @@ class Question(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, null=False)
 
+    class Meta:
+        ordering = ['-created_at'] # 최신 답변 순
+
     # question.answers(related_name).all() 
     def __str__(self):
         return f"[{self.category}] {self.title}"

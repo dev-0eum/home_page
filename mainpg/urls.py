@@ -25,7 +25,8 @@ urlpatterns = [
     path('ask/', QuestionCreateView.as_view(), name='ask'),
     path('question/<int:pk>', QuestionDetailView.as_view(), name='question_detail'),
     path('question/<int:pk>/delete/', QuestionDeleteView.as_view(), name='question_delete'),
-    #path('question/<int:pk>/answer/', AnswerCreateView.as_view(), name='answer_create'),
+    path('question/<int:pk>/answer/', AnswerCreateView.as_view(), name='answer'),
+    path('answer/<int:pk>/delete/', AnswerDeleteView.as_view(), name='answer_delete'),
 
     # api
     path("api/text/", hello),

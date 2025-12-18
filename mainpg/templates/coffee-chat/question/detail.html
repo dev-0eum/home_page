@@ -24,11 +24,22 @@
         Question
     </div>
 
-    <a href="{% url 'mainpage:atti_detail' %}">
+    <div class="card border-info card-item">
+        {% include 'snippets/qna_detail.html' with target_question=target_question %}
+    </div>
+    <br>
+
+
+    {% for answer in target_answers %}
         <div class="card border-info card-item">
-            {% include 'snippets/qna_detail.html' with target_question=target_question %}
+            {% include 'snippets/answer_detail.html' with target_answer=answer %}
         </div>
-    </a>
+        <br>
+    {% empty %}
+        <p style="text-align: center;">첫 번째 댓글을 달아 [{{ target_question.author }}] 동문을 도와주세요!</p>
+    {% endfor %}
+
+    {% include 'coffee-chat/answer/create.html' %}
 
     <!-- 질문 작성자 제거 -->
     {% if user.profile.name == target_question.author.name %}

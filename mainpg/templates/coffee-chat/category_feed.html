@@ -18,11 +18,20 @@
         margin-top: 30px;
     }
 
+    .rightbtn {
+        text-align: right; 
+        margin-bottom: 1rem;
+    }
 </style>
 
 <div class="centre">
     <div class="title">
-        {{ target_category.name }} QNA
+        QNA
+    </div>
+    <h4 style="text-align: center;">Category: {{ target_category.name }}</h4>
+
+    <div class="rightbtn">
+        <a href="{% url 'mainpage:ask' %}" class="btn btn-outline-secondary">질문하기</a>
     </div>
 
     
@@ -37,6 +46,9 @@
     <p>아직 등록된 글이 없습니다.</p>
     {% endfor %}
     
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
+    <br>
+
     <div style="text-align: center;">
         <a href="{% url 'mainpage:qna' %}" class="btn btn-outline-secondary">목록으로</a>
     </div>

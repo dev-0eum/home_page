@@ -78,21 +78,18 @@
         <div style="padding-bottom: 2rem;">
             <h2 class="Category-title "> {{ c.name }}</h2>
             <a href="{% url 'mainpage:feed' category_id=c.id %}" class="more"> 더 보기 </a>
-        
-            <div class="card-slider">
+
+             <!-- Start: Card List -->
+             <div class="card-slider">
+                {% for question in c.questions.all|slice:":3" %}
                 <div class="card border-info card-item">
-                    <a href="{% url 'mainpage:atti_detail' %}">
-                        {% include 'snippets/qna_card.html' %}
+                    <a href="{% url 'mainpage:question_detail' pk=question.pk %}">
+                        {% include 'snippets/qna_card.html' with question=question %}
                     </a>
                 </div>
-
-                <div class="card border-info card-item" style="margin-top: 10px;">
-                    {% include 'snippets/qna_card.html' %}
-                </div>
-                <div class="card border-info card-item" style="margin-top: 10px;">
-                    {% include 'snippets/qna_card.html' %}
-                </div>
+                {% endfor %}
             </div>
+            <!-- End: Card List -->
         </div>
         {% endfor %}
         <!-- End: Category List -->
