@@ -35,6 +35,11 @@ class Question(models.Model):
     # question.answers(related_name).all() 
     def __str__(self):
         return f"[{self.category}] {self.title}"
+    
+    # 최신 답변 하나를 가져오는 메서드 추가
+    def get_latest_answer(self):
+        # Answer의 Meta ordering이 이미 최신순이므로, 첫 번째(.first())가 가장 최신임
+        return self.answers.first()
 
 class Answer(models.Model):
     # answer.question.category

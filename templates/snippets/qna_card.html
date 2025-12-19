@@ -63,7 +63,7 @@
         font-weight: 400;
         line-height: 22px;
         margin-bottom: 12px;
-        max-height: 44px;
+        height: 44px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -76,6 +76,8 @@
         padding-left: 40px;
         text-align: right;
     }
+
+
 </style>
 
 <div class="qna-header">
@@ -92,12 +94,20 @@
 
 <div class="a_title">
     <div class="a_title_inner">
-        [{{ question.author }}] 님의 답변
+        {% if question.get_latest_answer.author %}
+            [{{ question.get_latest_answer.author }}] 님의 답변
+        {% else %}
+            등록된 답변이 없습니다.
+        {% endif %}
     </div>
 </div>
 
 <div class="qna-body">
-    {{ question.content }}
+    {% if question.get_latest_answer.author %}
+        {{ question.get_latest_answer.content }}
+    {% else %}
+        첫 답변을 기다리고 있어요!
+    {% endif %}
 </div>
 
 <div class="qna-date">

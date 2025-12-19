@@ -36,7 +36,7 @@
         </div>
         <br>
     {% empty %}
-        <p style="text-align: center;">첫 번째 댓글을 달아 [{{ target_question.author }}] 동문을 도와주세요!</p>
+        <p style="text-align: center;">첫 댓글을 달아 [{{ target_question.author }}] 동문을 도와주세요!</p>
     {% endfor %}
 
     {% include 'coffee-chat/answer/create.html' %}
