@@ -44,7 +44,7 @@
         {% endfor %}
     </div>
 
-    {% if is_admin %}
+    {% if user.groups.first.name == "admin" %}
     <button class="btn btn-dark rounded-pill col-3 mt-3 mb-5">
         <a href="{% url 'mainpage:org_add' %}" style="color: white; text-decoration: none;">
             Upload Image
