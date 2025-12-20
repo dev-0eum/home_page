@@ -30,6 +30,7 @@
     </div>
     <h4 style="text-align: center;">Category: {{ target_category.name }}</h4>
 
+    {% if user.is_authenticated %}
     <div class="rightbtn">
         <a href="{% url 'mainpage:ask' %}" class="btn btn-outline-secondary">질문하기</a>
     </div>
@@ -52,6 +53,14 @@
     <div style="text-align: center;">
         <a href="{% url 'mainpage:qna' %}" class="btn btn-outline-secondary">목록으로</a>
     </div>
+    {% else %}
+        <div class="text-center" style="margin: 100px;">
+            <h2>Only For Alumini</h2>
+            <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">
+                <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: black; color: white; margin-top: 10px;">Return to Home</button>
+            </a>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}

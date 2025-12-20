@@ -24,6 +24,7 @@
         Question
     </div>
 
+    {% if user.is_authenticated %}
     <div class="card border-info card-item">
         {% include 'snippets/qna_detail.html' with target_question=target_question %}
     </div>
@@ -50,6 +51,16 @@
             cancel
         </a>
     </div>
+    {% endif %}
+
+    <!-- End: is_authenticated -->
+    {% else %}
+        <div class="text-center" style="margin: 100px;">
+            <h2>Only For Alumini</h2>
+            <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">
+                <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: black; color: white; margin-top: 10px;">Return to Home</button>
+            </a>
+        </div>
     {% endif %}
 </div>
 
