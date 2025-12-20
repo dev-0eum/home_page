@@ -1,0 +1,12 @@
+<!-- Each Category -->
+<!-- Start: Card List -->
+<div class="card-slider">
+    {% for question in c.questions.all|slice:":3" %}
+    <div class="card border-info card-item">
+        <a href="{% url 'mainpage:question_detail' pk=question.pk %}">
+            {% include 'snippets/qna_card.html' with question=question %}
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<!-- End: Card List -->

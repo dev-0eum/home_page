@@ -1,7 +1,3 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
 
 <style>
     .centre {
@@ -62,30 +58,12 @@
 </style>
 
 
-<div>
-    <div class="centre">
-        <div class="coffee-chat-title">
-            QNA
-        </div>
-        <p style="text-align: center;">선후배 간의 경험 공유를 위한 질문의 장</p>
-        
-
-        {% if user.is_authenticated %}
-        <div class="rightbtn">
-            <a href="{% url 'mainpage:ask' %}" class="btn btn-outline-secondary">질문하기</a>
-        </div>
-
-        {% include 'snippets/category_list.html' with target_category=target_category %}
-
-        {% else %}
-            <div class="text-center" style="margin: 100px;">
-                <h2>Only For Alumini</h2>
-                <a href="{% url 'mainpage:home' %}" style="text-decoration: none; color: black;">
-                    <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: black; color: white; margin-top: 10px;">Return to Home</button>
-                </a>
-            </div>
-        {% endif %}
-    </div>
+<!-- Start: Category List -->
+{% for c in target_category %}
+<div style="padding-bottom: 2rem;">
+    <h2 class="Category-title "> {{ c.name }}</h2>
+    <a href="{% url 'mainpage:feed' category_id=c.id %}" class="more"> 더 보기 </a>
+    {% include 'snippets/qna_cardlist.html' with c=c %}
 </div>
-
-{% endblock %}
+{% endfor %}
+<!-- End: Category List -->

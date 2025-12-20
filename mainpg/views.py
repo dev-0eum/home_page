@@ -12,7 +12,8 @@ from mainpg.models import News, OrgImg
 # Create your views here.
 def home_view(request):
     news_list = News.objects.all().order_by('-created_at')[:6]
-    return render(request, 'mainpg/intro.html', {'news_list': news_list})
+    category_list = Category.objects.all().filter(id__in=['1'])  # 원하는 카테고리 ID 리스트로 필터링
+    return render(request, 'mainpg/intro.html', {'news_list': news_list, 'target_category': category_list})
 
 ############# Admin #############
 class TestView(ListView):
@@ -58,7 +59,7 @@ class NewsView(ListView):
     context_object_name = 'news_list'
     template_name = 'news/feed.html'
     ordering = ['-created_at'] # 최신순 정렬 
-    paginate_by = 3
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
