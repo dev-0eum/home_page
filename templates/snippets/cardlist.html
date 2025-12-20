@@ -44,25 +44,56 @@
             color: #666;
         }
 
-        @media screen and (max-width:500px){
-            .card {
-            width: 300px; /* 필요에 따라 조정 가능 */
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            }
-
-
+        @media screen and (max-width: 768px) {
+        
+        /* 1. 바깥 틀 (my-slider): 스크롤 영역 역할 */
+        .my-slider {
+            max-width: 100vw;      /* 화면 너비 꽉 채움 */
+            overflow-x: auto;      /* ★ 가로 스크롤 허용 (핵심) */
+            overflow-y: hidden;    /* 세로 스크롤 방지 */
+            
+            /* 스크롤바 숨기기 (선택사항) */
+            -ms-overflow-style: none; /* IE, Edge */
+            scrollbar-width: none;    /* Firefox */
         }
+        .my-slider::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+
+        /* 2. 안쪽 내용물 (card-list): 가로로 길게 늘어짐 */
+        .card-list {
+            display: flex !important;       /* ★ Flexbox 강제 적용 */
+            flex-direction: row !important; /* ★ 무조건 가로 방향 배치 */
+            flex-wrap: nowrap !important;   /* ★ 줄바꿈 절대 금지 (세로 나열 방지) */
+            
+            width: fit-content;    /* 내용물만큼 너비 확보 */
+            padding: 0 16px;       /* 좌우 여백 */
+            gap: 12px;             /* 카드 사이 간격 */
+        }
+
+        /* 3. 카드 아이템 (card-item): 크기 고정 */
+        .card-item {
+            display: block;        /* 블록 요소로 동작 */
+            width: 80vw;           /* 화면의 80% 차지 (옆 카드가 보이게) */
+            max-width: 300px;      /* 너무 커지지 않게 제한 */
+            flex-shrink: 0;        /* ★ 공간이 좁아도 찌그러지지 않음 (핵심) */
+            
+            /* 카드 내부 스타일 */
+            height: auto;
+            min-height: 200px;
+            margin: 0;             /* card-list의 gap으로 간격 조절하므로 margin 제거 */
+        }
+    }
 </style>
+
+
 <!-- templates/cardlist.html -->
-<div class="card-list">
-    {% for news in news_list %}
+<div class="my-slider">
+    <div class="card-list">
+        {% for news in news_list %}
         <a href="{% url 'mainpage:detail' pk=news.pk %}">
             {% include 'snippets/card.html' with news=news %}
         </a>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>

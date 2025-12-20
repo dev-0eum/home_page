@@ -55,6 +55,81 @@
         text-align: right; 
         margin-bottom: 1rem;
     }
+
+    @media screen and (max-width: 768px) {
+        
+        /* 1. 전체 레이아웃 여백 축소 */
+        .centre {
+            padding: 0 16px 40px; /* 좌우 여백을 좁힘 */
+        }
+
+        /* 2. 거대한 제목 폰트 사이즈 축소 */
+        .coffee-chat-title {
+            font-size: 28px; /* 50px -> 28px */
+            margin-top: 20px;
+        }
+
+        .Category-title {
+            font-size: 24px; /* 50px -> 24px */
+            margin-left: 0;  /* 왼쪽 여백 제거 */
+        }
+
+        /* 3. 더보기 버튼 위치 조정 */
+        .more {
+            font-size: 14px;
+            padding: 0 8px;
+            line-height: 24px;
+        }
+
+        /* 4. 카드 슬라이더: 가로 스크롤 가능하게 변경 */
+        .card-slider {
+            display: flex;
+            flex-wrap: nowrap;       /* 줄바꿈 방지 */
+            overflow-x: auto;        /* 가로 스크롤 허용 */
+            scroll-behavior: smooth; /* 부드러운 스크롤 */
+            -webkit-overflow-scrolling: touch; /* 아이폰 터치 스크롤 최적화 */
+            
+            /* 스크롤바 영역 확보 및 여백 */
+            padding-bottom: 10px;
+            margin: 0 -16px; /* 화면 끝까지 슬라이더 확장 */
+            padding-left: 16px; /* 시작 부분 여백 */
+        }
+
+        /* (선택) 가로 스크롤바 숨기기 */
+        .card-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 5. 카드 아이템 크기 유동적으로 변경 */
+        .card-item {
+            /* 고정 너비 500px 해제 */
+            width: 85vw;       /* 화면 너비의 85% 차지 (옆 카드가 살짝 보이게) */
+            min-width: 280px;  /* 너무 작아짐 방지 */
+            max-width: 350px;  /* 너무 커짐 방지 */
+            
+            height: auto;      /* 높이 자동 (혹은 고정값을 줄여서 200px 등으로 설정) */
+            min-height: 200px;
+            
+            margin-right: 12px; /* 카드 사이 간격 */
+            flex-shrink: 0;     /* 카드가 찌그러지지 않게 고정 */
+        }
+
+        /* 6. 내부 텍스트 크기 및 높이 조정 */
+        .qna-body {
+            font-size: 16px; /* 본문 폰트 약간 줄임 */
+            height: 60px;    /* 모바일에서는 본문 높이를 조금 줄임 (선택사항) */
+            -webkit-line-clamp: 2; /* 3줄 -> 2줄로 줄임 (공간 확보용) */
+        }
+
+        .q_title, .a_title {
+            font-size: 16px; /* Q, A 제목 폰트 줄임 */
+        }
+        
+        .q_title::before, .a_title::before {
+            font-size: 24px; /* Q, A 아이콘 크기 줄임 */
+            margin-top: 22px; /* 아이콘 위치 미세 조정 */
+        }
+    }
 </style>
 
 
