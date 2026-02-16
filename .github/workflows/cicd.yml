@@ -86,7 +86,16 @@ jobs:
             # 1. 프로젝트 폴더로 이동 (경로 확인 필수!)
             cd /home/home_page
 
-            #test
-            touch test_$(date +\%y\%m\%d_\%H\%M\%S)
-            # touch tt_$(date +\%y\%m\%d_\%H\%M\%S)
+            #test(Completed)
+            #touch test_$(date +\%y\%m\%d_\%H\%M\%S)
+            
+            # 2. 최신 코드 받기
+            #git pull origin main
+
+            # 3. 컨테이너 재시작 (서버의 .env 파일 사용)
+            #docker-compose down
+            #docker-compose up -d --build
+
+            # 4. 불필요한 이미지 삭제
+            #docker image prune -f
             
