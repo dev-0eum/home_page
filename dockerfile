@@ -1,4 +1,5 @@
 From python:3.13.7
+From python:3.12-slim
 
 WORKDIR /home/
 
@@ -10,20 +11,15 @@ RUN pip install -r requirements.txt
 
 RUN pip install gunicorn
 
-RUN echo "SECRET_KEY=django-insecure-h+1rw7v0p12=hy%af1hjecl!!htz1v58s^zo6oy!u*f4_lz-t9" > .env
-
-RUN python manage.py migrate
-
-RUN python manage.py collectstatic
+RUN SECRET_KEY=dummy-key-for-build python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["gunicorn", "home_page.wsgi", "bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "home_page.wsgi", "--bind", "0.0.0.0:8000"]
 
 
 
-
------------------------------
+'''-----------------------------
 From python:3.12-slim
 
 WORKDIR /home/
@@ -40,13 +36,11 @@ RUN pip install -r requirements.txt
 
 RUN pip install gunicorn
 
-RUN echo "SECRET_KEY=django-insecure-h+1rw7v0p12=hy%af1hjecl!!htz1v58s^zo6oy!u*f4_lz-t9" > .env
-
 RUN ls -l
 
 RUN python manage.py migrate
 
-
 EXPOSE 8000
 
 CMD ["gunicorn", "myproj.wsgi", "--bind", "0.0.0.0:8000"] 
+'''
